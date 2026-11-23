@@ -1,0 +1,120 @@
+/* Ember Duel — the whole look: a dark tavern table, big readable cards, and
+   three elements told apart by colour and shape, never by text alone. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: radial-gradient(1200px 700px at 50% -10%, #3a2a1a 0%, #1a120b 55%, #0d0906 100%);
+  color: #f3e6c8;
+  overflow: hidden;
+}
+#app { height: 100%; }
+.screen { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+
+/* ---------- title & end screens ---------- */
+.title-kicker { letter-spacing: 0.35em; font-size: 15px; color: #e8b64c; text-transform: uppercase; }
+.game-title {
+  font-size: 92px; line-height: 0.95; text-align: center; margin: 14px 0 10px;
+  color: #ffcf5c;
+  text-shadow: 0 0 24px rgba(255, 150, 40, 0.55), 0 4px 0 #7a2d12, 0 8px 24px rgba(0, 0, 0, 0.8);
+}
+.title-tagline { font-size: 19px; color: #e8dcc0; max-width: 640px; text-align: center; line-height: 1.45; }
+.wheel { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 22px 0 6px; max-width: 760px; }
+.wheel-item { padding: 8px 14px; border-radius: 20px; font-size: 15px; font-weight: bold; background: rgba(0, 0, 0, 0.45); border: 2px solid currentColor; }
+.wheel-item.element-ember { color: #ff8a70; }
+.wheel-item.element-gale { color: #7fe0a8; }
+.wheel-item.element-tide { color: #8ec2ff; }
+.wheel-item.wheel-combo { color: #ffd75c; }
+.big-button {
+  font-family: inherit; font-size: 24px; font-weight: bold; color: #241503;
+  background: linear-gradient(#ffd75c, #e89b1c); border: 3px solid #8a5a10; border-radius: 12px;
+  padding: 14px 42px; margin-top: 24px; cursor: pointer;
+  box-shadow: 0 6px 0 #8a5a10, 0 10px 24px rgba(0, 0, 0, 0.6);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.big-button:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #8a5a10, 0 14px 28px rgba(0, 0, 0, 0.6); }
+.big-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #8a5a10; }
+.big-button:disabled { opacity: 0.45; cursor: default; transform: none; }
+.small-button {
+  font-family: inherit; font-size: 15px; color: #f3e6c8; background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #8a7a5a; border-radius: 8px; padding: 8px 14px; cursor: pointer;
+}
+.small-button:hover { background: rgba(255, 255, 255, 0.16); }
+.title-hint { margin-top: 16px; font-size: 14px; color: #bfae8a; text-align: center; }
+.title-hint + .title-hint { margin-top: 4px; }
+
+/* ---------- end screens ---------- */
+.end-screen.win .game-title { color: #7fe0a8; text-shadow: 0 0 24px rgba(60, 220, 130, 0.5), 0 4px 0 #0f5c33, 0 8px 24px rgba(0, 0, 0, 0.8); }
+.end-screen.loss .game-title { color: #ff8a70; text-shadow: 0 0 24px rgba(220, 60, 40, 0.5), 0 4px 0 #7a1d16, 0 8px 24px rgba(0, 0, 0, 0.8); }
+.score-card { background: rgba(0, 0, 0, 0.45); border: 2px solid #8a7a5a; border-radius: 12px; padding: 14px 26px; margin-top: 20px; min-width: 380px; }
+.score-row { display: flex; justify-content: space-between; font-size: 18px; padding: 5px 0; }
+.score-row strong { color: #ffcf5c; }
+
+/* ---------- table ---------- */
+.table-screen { justify-content: space-between; padding: 16px 28px; }
+.table-top { width: 100%; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
+.fighter { width: 340px; }
+.fighter-name { font-size: 20px; font-weight: bold; margin-bottom: 6px; }
+.opponent-fighter .fighter-name { color: #ff9a86; }
+.player-fighter { text-align: right; }
+.player-fighter .fighter-name { color: #ffd75c; }
+.hp-bar { position: relative; height: 26px; background: #2a1a12; border: 2px solid #6b5636; border-radius: 13px; overflow: hidden; }
+.hp-fill { height: 100%; background: linear-gradient(#7ee2a0, #2fae6e); transition: width 0.4s ease; }
+.hp-bar.low .hp-fill { background: linear-gradient(#ff9a86, #e2483d); }
+.hp-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: #fff; text-shadow: 0 1px 2px #000; }
+.mana { margin-top: 6px; font-size: 15px; letter-spacing: 2px; }
+.mana-gem { color: #5a4a33; }
+.mana-gem.full { color: #6fc4ff; text-shadow: 0 0 8px rgba(111, 196, 255, 0.8); }
+.mana-text { margin-left: 8px; letter-spacing: 0; color: #bfae8a; }
+.turn-box { text-align: center; }
+.turn-label { font-size: 26px; font-weight: bold; color: #ffcf5c; letter-spacing: 0.12em; }
+.turn-owner { font-size: 15px; color: #e8dcc0; margin-top: 2px; }
+.deck-count { font-size: 13px; color: #bfae8a; margin-top: 4px; }
+.opponent-hand { display: flex; gap: 8px; align-items: center; min-height: 132px; }
+.hand-count { font-size: 14px; color: #bfae8a; margin-left: 6px; }
+.middle-row { text-align: center; }
+.arena-note { font-size: 14px; color: #bfae8a; }
+.damage-banner { margin-top: 8px; font-size: 18px; color: #ffd75c; background: rgba(0, 0, 0, 0.4); border: 1px solid #8a7a5a; border-radius: 8px; padding: 6px 16px; display: inline-block; }
+.log { list-style: none; width: 100%; max-width: 860px; font-size: 14px; color: #d8cba6; line-height: 1.5; min-height: 84px; }
+.log li::before { content: '› '; color: #e8b64c; }
+.player-hand { display: flex; gap: 10px; justify-content: center; min-height: 168px; align-items: flex-end; flex-wrap: wrap; }
+.table-bottom { display: flex; gap: 14px; align-items: center; justify-content: center; width: 100%; }
+.table-bottom .big-button { margin-top: 0; font-size: 19px; padding: 10px 28px; }
+.score-hint { font-size: 14px; color: #bfae8a; }
+
+/* ---------- cards ---------- */
+.card {
+  position: relative; width: 104px; height: 150px; border-radius: 12px; border: 3px solid #d8cba6;
+  font-family: inherit; color: #fff; cursor: pointer; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card.playable:hover { transform: translateY(-14px) scale(1.05); box-shadow: 0 14px 26px rgba(0, 0, 0, 0.7); }
+.card.dimmed { opacity: 0.55; cursor: not-allowed; }
+.card.element-ember { background: linear-gradient(160deg, #c93a2c, #7a1d16); }
+.card.element-tide { background: linear-gradient(160deg, #2f7fe0, #123f7a); }
+.card.element-gale { background: linear-gradient(160deg, #2fae6e, #0f5c33); }
+.card-cost {
+  position: absolute; top: 6px; left: 6px; width: 28px; height: 28px; border-radius: 50%;
+  background: #6fc4ff; color: #0b2a44; font-size: 17px; font-weight: bold; line-height: 28px;
+  border: 2px solid #dff1ff;
+}
+.card-key {
+  position: absolute; top: 6px; right: 6px; font-size: 11px; color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 4px; padding: 0 4px;
+}
+.card-symbol { font-size: 30px; line-height: 1; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
+.card-attack { font-size: 40px; font-weight: bold; line-height: 1; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6); }
+.card-name { font-size: 15px; font-weight: bold; }
+.card-element { font-size: 12px; letter-spacing: 0.08em; opacity: 0.9; }
+.card-back {
+  width: 76px; height: 110px; cursor: default;
+  background: repeating-linear-gradient(45deg, #3a2a6e 0 10px, #2a1a4e 10px 20px);
+  border-color: #8a7fd8;
+}
+.card-back-symbol { font-size: 34px; color: #c9b8ff; }
+.element-badge { font-weight: bold; }
+
+/* Shot mode: freeze every transition so a screenshot catches the final state. */
+body.no-anim * { transition: none !important; animation: none !important; }
